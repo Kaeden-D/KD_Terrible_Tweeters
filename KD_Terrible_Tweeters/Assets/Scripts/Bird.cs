@@ -44,6 +44,9 @@ public class Bird : MonoBehaviour
         rb.gravityScale = 1;
         rb.AddForce(direction * launch_force);
 
+        var audio_source = GetComponent<AudioSource>();
+        audio_source.Play();
+
         sprite.color = Color.white;
 
         is_dragging = false;

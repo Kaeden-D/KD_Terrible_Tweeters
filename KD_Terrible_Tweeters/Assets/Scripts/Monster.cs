@@ -12,6 +12,23 @@ public class Monster : MonoBehaviour
 
     private bool has_died = false;
 
+    IEnumerator Start()
+    {
+
+        while(!has_died)
+        {
+            float delay = UnityEngine.Random.Range(5, 30);
+            yield return new WaitForSeconds(delay);
+            if (!has_died){ GetComponent<AudioSource>().Play(); };
+        }
+
+    }
+
+    private void OnMouseDown()
+    {
+        GetComponent<AudioSource>().Play();
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
         
@@ -27,7 +44,7 @@ public class Monster : MonoBehaviour
         Bird bird = collision.gameObject.GetComponent<Bird>();
         if (bird != null) { return true; }
         if (collision.contacts[0].normal.y < -0.5) { return true; }
-        if (Speed(collision) > death_speed) { return true; }
+        if (collision.relativeVelocity.magnitude > death_speed) { return true; }
 
         return false;
 
@@ -42,31 +59,6 @@ public class Monster : MonoBehaviour
         particle_system.Play();
         yield return new WaitForSeconds(1);
         gameObject.SetActive(false);
-
-    }
-
-    float Speed (Collision2D collision)
-    {
-
-        float value = Mathf.Sqrt(Exp(collision.contacts[0].relativeVelocity.x, 2) + Exp(collision.contacts[0].relativeVelocity.y, 2));
-        Debug.Log(value);
-        return value;
-
-    }
-
-    private float Exp(float x, int y)
-    {
-
-        if (y < 0) { return 1; }
-        float value = 1;
-        for(int i = 0; i < y; i++)
-        {
-
-            value *= x;
-
-        }
-
-        return value;
 
     }
 
