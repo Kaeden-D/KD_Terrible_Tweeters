@@ -48,7 +48,7 @@ public class Volume : MonoBehaviour
 
         slider.value = 1f;
 
-        if (enabled)
+        if (!enabled)
         {
             slider.value = 0.0001f;
         }
