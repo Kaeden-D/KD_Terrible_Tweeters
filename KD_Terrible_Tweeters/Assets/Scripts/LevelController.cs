@@ -6,6 +6,7 @@ public class LevelController : MonoBehaviour
 {
 
     [SerializeField] string next_level_name;
+    [SerializeField] bool play = true;
 
     private Monster[] monsters;
 
@@ -18,14 +19,23 @@ public class LevelController : MonoBehaviour
     void Update()
     {
         
-        if (MonstersAreAllDead())
+        if (play && MonstersAreAllDead())
         {
+
             GoToNextLevel();
+
+        }
+
+        if(Input.GetKeyDown(KeyCode.R))
+        {
+
+            RestartLevel();
+
         }
 
     }
 
-    private void GoToNextLevel()
+    public void GoToNextLevel()
     {
 
         Debug.Log("Go to " + next_level_name);
@@ -49,6 +59,13 @@ public class LevelController : MonoBehaviour
         }
 
         return true;
+
+    }
+
+    private void RestartLevel()
+    {
+
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 
     }
 
